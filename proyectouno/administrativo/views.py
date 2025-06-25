@@ -13,11 +13,17 @@ def index(request):
     matriculas = Matricula.objects.all()
     estudiantes = Estudiante.objects.all()
     titulo = "Listado de matriculas"
+    # Calcular el total de matrículas para cada estudiante
+    for estudiante in estudiantes:
+        matriculas_est = estudiante.obtener_matriculas()
+        estudiante.total_matriculas = sum([m.costo for m in matriculas_est])
+        estudiante.matriculas_list = matriculas_est  # para evitar múltiples consultas en el template
+
     informacion_template = {
         'matriculas': matriculas,
         'numero_matriculas': len(matriculas),
         'mititulo': titulo,
-        'estudiantes': estudiantes
+        'estudiantes': estudiantes,
     }
     return render(request, 'index.html', informacion_template)
 
@@ -68,15 +74,11 @@ def editar_matricula(request, id):
 
 def detalle_estudiante(request, id):
     """
+
     """
+
     estudiante = Estudiante.objects.get(pk=id)
-    matriculas = estudiante.obtener_matriculas()
-    costo_total = sum([m.costo for m in matriculas])
-    informacion_template = {
-        'e': estudiante,
-        'matriculas': matriculas,
-        'costo_total': costo_total
-    }
+    informacion_template = {'e': estudiante}
     return render(request, 'detalle_estudiante.html', informacion_template)
 
 def listar_estudiantes(request):
