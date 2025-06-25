@@ -1,0 +1,34 @@
+<h2>Detalle estudiante</h2>
+
+<table border="1px">
+  <tr>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Tipo</th>
+    <th>Edad</th>
+    <th>Matrículas</th>
+  </tr>
+  <tr>
+    <td>{{ e.nombre }}</td>
+    <td>{{ e.apellido }}</td>
+    <td>{{ e.tipo_estudiante }}</td>
+    <td>{{ e.edad }}</td>
+    <td>
+      <table border="0">
+        {% for m in matriculas %}
+        <tr>
+          <td><b>Módulo:</b> {{ m.modulo.nombre }}</td>
+        </tr>
+        <tr>
+          <td><b>Costo:</b> {{ m.costo }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td><b>Total:</b> {{ costo_total }}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br>
+[<a href="{% url 'index' %}">inicio</a>]
